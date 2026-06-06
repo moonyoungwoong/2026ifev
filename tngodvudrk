@@ -1,0 +1,88 @@
+import tkinter
+import tkinter.messagebox
+
+# ==========================================
+# [기본 세팅 코드: 이 부분은 수정하지 마세요]
+key = ""
+def key_down(e):
+    global key
+    key = e.keysym
+def key_up(e):
+    global key
+    key = ""
+
+mx = 1
+my = 1
+yuka = 0
+# ==========================================
+
+def main_proc():
+    # [미션 1-2] 전역 변수 mx, my, yuka를 함수 안에서 수정할 수 있도록 선언하세요. (평가: 변수 활용)
+    ________ mx, my, yuka
+
+    # [미션 3] 방향키 이동 및 벽(1) 충돌 방지 로직 완성 (평가: 필수 기능 ②, 조건문 활용)
+    # 힌트: 이동하려는 방향의 maze 리스트 값이 0(길)일 때만 이동해야 벽을 뚫지 않습니다.
+    if key == "Up" and maze[________][mx] == 0:
+        my = my - 1
+    if key == "Down" and maze[________][mx] == 0:
+        my = ________
+    if key == "Left" and maze[my][________] == 0:
+        mx = mx - 1
+    if key == "Right" and maze[my][________] == 0:
+        mx = ________
+
+    # [미션 4-1] 바닥 칠하기 및 칠한 칸 수 세기 (평가: 필수 기능 ③)
+    if maze[my][mx] == 0:
+        maze[my][mx] = 2  # 지나간 자리를 2로 변경
+        yuka = ________   # 칠한 칸 수를 1씩 증가 시키기
+        canvas.create_rectangle(mx*80, my*80, mx*80+79, my*80+79, fill="pink", width=0)
+        
+    # 캐릭터 그리기 (수정 금지)
+    canvas.delete("MYCHR")
+    canvas.create_image(mx*80+40, my*80+40, image=img, tag="MYCHR")
+    
+    # [미션 4-2] 게임 클리어 판정 (평가: 필수 기능 ④)
+    # 본인이 미션 1-1에서 직접 설계한 미로의 전체 '빈길(0)' 개수를 계산하여 아래 조건문을 완성하세요.
+    if yuka == ________: 
+        canvas.update()
+        tkinter.messagebox.showinfo("축하합니다！", "모든 바닥을 칠했습니다！")
+    else:
+        root.after(300, main_proc)
+
+# ==========================================
+# [기본 GUI 세팅 코드: 수정하지 마세요]
+root = tkinter.Tk()
+root.title("나만의 미로 칠하기 게임")
+root.bind("<KeyPress>", key_down)
+root.bind("<KeyRelease>", key_up)
+canvas = tkinter.Canvas(width=800, height=560, bg="white")
+canvas.pack()
+# ==========================================
+
+# [미션 1-1] 0(길)과 1(벽)을 사용하여 10x7 크기의 2차원 리스트 미로를 자유롭게 설계하세요. (평가: 2차원 리스트 활용)
+# (단, 초기 캐릭터 시작 위치는 반드시 0이어야 합니다.)
+maze = [
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ],
+    [ , , , , , , , , , ]
+]
+
+# [미션 2] 중첩 반복문(for)과 조건문(if)을 사용하여 맵을 화면에 출력하세요. (평가: 필수 기능 ①, 중첩 제어 구조 활용)
+# 힌트: maze의 값이 1인 경우, (x*80, y*80) 위치에 하늘색(skyblue) 벽 블록을 그립니다.
+for y in range(7):
+    for x in range(10):
+        if ________ == 1:
+            canvas.create_rectangle(x*80, y*80, x*80+79, y*80+79, fill="skyblue", width=0)
+
+# ==========================================
+# [이미지 로드 및 실행 코드: 수정하지 마세요]
+# 주의: 'hyunju2.png' 이미지 파일이 파이썬 파일과 같은 폴더에 있어야 실행됩니다.
+img = tkinter.PhotoImage(file="hyunju2.png")
+canvas.create_image(mx*80+40, my*80+40, image=img, tag="MYCHR")
+main_proc()
+root.mainloop()
+# ==========================================
